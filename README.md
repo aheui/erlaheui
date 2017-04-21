@@ -4,11 +4,14 @@
 ## 실행  
 
     $ erlc erlaheui.erl
-    $ erl -noshell -eval "erlaheui:c([아희파일]), init:stop()"
+    $ erl -noshell -eval "erlaheui:c(\"hello-world.puzzlet.aheui\"), init:stop()"
+    Hello, world!
+    $ 
 
-    경로를 \\"로 감싸는 걸 잊으면 안됩니다.
+    경로를 \"로 감싸는 걸 잊으면 안됩니다.
 
 ## [snippets](https://github.com/aheui/snippets) 테스트  
+
     $ ./test.sh  
     $ ...
     $ test status: 20 / 33  
