@@ -3,10 +3,15 @@
 
 ## 실행  
 
-./run.sh [아희파일]  
+    $ erlc erlaheui.erl
+    $ erl -noshell -eval "erlaheui:c([아희파일]), init:stop()"
+
+    경로를 \\"로 감싸는 걸 잊으면 안됩니다.
 
 ## [snippets](https://github.com/aheui/snippets) 테스트  
-test status: 20 / 33  
+    $ ./test.sh  
+    $ ...
+    $ test status: 20 / 33  
 
 ## 개발환경  
 

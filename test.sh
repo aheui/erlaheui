@@ -5,7 +5,7 @@ if [ -e snippets ]; then
     git pull
 else
     git clone http://github.com/aheui/snippets
+    cd snippets
 fi
-cd snippets
 chmod 755 ../run.sh
-AHEUI="../run.sh" bash test.sh standard
+AHEUI="../run.sh" bash ./test.sh standard
