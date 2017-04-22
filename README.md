@@ -12,7 +12,7 @@
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-test status: 26 / 33  
+test status: 29 / 33  
 
 |# |테스트코드          |통과              |
 |--|--------------------|------------------|
