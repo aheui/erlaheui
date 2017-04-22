@@ -1,0 +1,141 @@
+Already up-to-date.
+mode: optin / targets: standard
+testset: standard
+  test bieup-char...[92msuccess![0m
+  test bieup-sign...[91mfail![0m
+    [92mexpected[0m 042-42
+    [91mactual[0m   [0]"*"[-42]
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:17.755311899 +0900
++++ standard/bieup-sign.out	2017-04-21 18:17:33.253154690 +0900
+@@ -1 +1 @@
+-[0]"*"[-42]
+\ No newline at end of file
++042-42
+\ No newline at end of file
+  test bieup...[91mfail![0m
+    [92mexpected[0m 4434324453224689979975544481753
+    [91mactual[0m   4434324453224689979975544["밯3"]{"init terminating in do_boot",{{badmatch,eof},[{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,191}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]},{init,start_em,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:19.034260891 +0900
++++ standard/bieup.out	2017-04-21 18:17:33.253154690 +0900
+@@ -1 +1 @@
+-4434324453224689979975544["밯3"]{"init terminating in do_boot",{{badmatch,eof},[{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,191}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]},{init,start_em,1,[]}]}}
++4434324453224689979975544481753
+\ No newline at end of file
+  test border...[91mfail![0m
+    [92mexpected[0m 369
+    [91mactual[0m   3{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:19.346248448 +0900
++++ standard/border.out	2017-04-21 18:17:33.254154650 +0900
+@@ -1 +1 @@
+-3{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
++369
+\ No newline at end of file
+  test chieut...[92msuccess![0m
+  test default-direction...[92msuccess![0m
+  test default-storage...[92msuccess![0m
+  test digeut...[92msuccess![0m
+  test emptyswap...[91mfail![0m
+    [92mexpected[0m 
+    [91mactual[0m   {"init terminating in do_boot",{badarg,[{lists,split,[2,[2]],[{file,"lists.erl"},{line,1416}]},{erlaheui,xchg,1,[{file,"erlaheui.erl"},{line,250}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,214}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:24.678035798 +0900
++++ standard/emptyswap.out	2017-04-21 18:17:33.255154611 +0900
+@@ -1 +0,0 @@
+-{"init terminating in do_boot",{badarg,[{lists,split,[2,[2]],[{file,"lists.erl"},{line,1416}]},{erlaheui,xchg,1,[{file,"erlaheui.erl"},{line,250}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,214}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+  test exhausted-storage...[91mfail![0m
+    [92mexpected[0m 3
+    [91mactual[0m   {"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:24.978023833 +0900
++++ standard/exhausted-storage.out	2017-04-21 18:17:33.256154572 +0900
+@@ -1 +1 @@
+-{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
++3
+\ No newline at end of file
+  test exitcode...[91mfail![0m
+    [92mexpected[0m 
+    [91mactual[0m   {"init terminating in do_boot",{badarg,[{io,format,[<0.24.0>,"~ts",[2]],[]},{erlaheui,printlist,1,[{file,"erlaheui.erl"},{line,374}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,143}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:25.279011829 +0900
++++ standard/exitcode.out	2017-04-21 18:17:33.256154572 +0900
+@@ -1 +0,0 @@
+-{"init terminating in do_boot",{badarg,[{io,format,[<0.24.0>,"~ts",[2]],[]},{erlaheui,printlist,1,[{file,"erlaheui.erl"},{line,374}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,143}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+  test hieut-pop...[92msuccess![0m
+  test ieunghieut...[92msuccess![0m
+  test jieut...[92msuccess![0m
+  test loop...[92msuccess![0m
+  test mieum...[92msuccess![0m
+  test nieun...[92msuccess![0m
+  test pieup...[91mfail![0m
+    [92mexpected[0m 81494981
+    [91mactual[0m   8149{"init terminating in do_boot",{badarg,[{erlang,'++',[9,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:41.195377029 +0900
++++ standard/pieup.out	2017-04-21 18:17:33.258154493 +0900
+@@ -1 +1 @@
+-8149{"init terminating in do_boot",{badarg,[{erlang,'++',[9,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
++81494981
+\ No newline at end of file
+  test print...[92msuccess![0m
+  test queue...[91mfail![0m
+    [92mexpected[0m 235223
+    [91mactual[0m   {"init terminating in do_boot",{badarg,[{erlang,'++',[2,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:42.754314853 +0900
++++ standard/queue.out	2017-04-21 18:17:33.258154493 +0900
+@@ -1 +1 @@
+-{"init terminating in do_boot",{badarg,[{erlang,'++',[2,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
++235223
+\ No newline at end of file
+  test rieul...[92msuccess![0m
+  test shebang...[92msuccess![0m
+  test ssangbieup...[92msuccess![0m
+  test ssangdigeut...[92msuccess![0m
+  test ssangsiot...[91mfail![0m
+    [92mexpected[0m 320320320320320320320320320
+    [91mactual[0m   320320{"init terminating in do_boot",{badarg,[{erlang,'++',[2,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,222}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:48.081102402 +0900
++++ standard/ssangsiot.out	2017-04-21 18:17:33.260154415 +0900
+@@ -1 +1 @@
+-320320{"init terminating in do_boot",{badarg,[{erlang,'++',[2,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,222}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
++320320320320320320320320320
+  test storage...[91mfail![0m
+    [92mexpected[0m 320320320320320320320320023320320320320320
+    [91mactual[0m   320320320320320320320320{"init terminating in do_boot",{badarg,[{erlang,'++',[0,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:48.447087805 +0900
++++ standard/storage.out	2017-04-21 18:17:33.260154415 +0900
+@@ -1 +1 @@
+-320320320320320320320320{"init terminating in do_boot",{badarg,[{erlang,'++',[0,[[],[],[],[],[]]],[]},{lists,append,2,[{file,"lists.erl"},{line,114}]},{erlaheui,push_or_enqueue,2,[{file,"erlaheui.erl"},{line,116}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,206}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]}]}}
++320320320320320320320320023320320320320320
+\ No newline at end of file
+  test syllable...[92msuccess![0m
+  test tieut...[92msuccess![0m
+  test vowel-2step...[91mfail![0m
+    [92mexpected[0m 3596
+    [91mactual[0m   3596{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:51.320973185 +0900
++++ standard/vowel-2step.out	2017-04-21 18:17:33.261154375 +0900
+@@ -1 +1 @@
+-3596{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
++3596
+\ No newline at end of file
+  test vowel-advanced...[91mfail![0m
+    [92mexpected[0m 543295432954329
+    [91mactual[0m   5432{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
+diff from actual to expected
+--- .test.tmp	2017-04-22 11:42:51.648960103 +0900
++++ standard/vowel-advanced.out	2017-04-21 18:17:33.261154375 +0900
+@@ -1 +1 @@
+-5432{"init terminating in do_boot",{badarg,[{lists,split,[1,[]],[{file,"lists.erl"},{line,1416}]},{erlaheui,pop_or_dequeue,1,[{file,"erlaheui.erl"},{line,127}]},{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,177}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,13}]},{erlaheui,c,1,[{file,"erlaheui.erl"},{line,9}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]}]}}
++543295432954329
+\ No newline at end of file
+  test vowel-basic...[92msuccess![0m
+  test vowel-useless...[92msuccess![0m
+  test vowel-useless2...[92msuccess![0m
+test status: 21/[92m33[0m
