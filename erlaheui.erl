@@ -9,8 +9,8 @@ c(Path) ->
     erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
 
 erlaheui(Src, X, Y, _Dir, _Store) ->
-    % io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
-    % io:fread("step", "~p"),
+    %io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
+    %io:fread("step", "~p"),
     case aheui_fsm(get(Y, X, Src), _Dir, _Store) of
         {{up, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {y, -Step}, Src),
@@ -152,7 +152,7 @@ pop_or_dequeue({N, _Store}) ->
     {V, lists:append(lists:append(Head, [Body]), Tail)}.
 %% return top element of stack or queue
 top({N, Store}) ->
-    get(1, N, Store).
+    get(N, 1, Store).
 
 %% create empty lists
 create_list(N) -> create_list(N, []).
@@ -276,7 +276,11 @@ aheui_fsm([7, Hol, Bat], Dir, {N, _Store}) ->
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% dup
 aheui_fsm([8, Hol, _], Dir, {N, _Store}) ->
-    Store = push_or_enqueue({N, _Store}, top({N, _Store})),
+    V = top({N, _Store}),
+    {Head, _} = lists:split(N - 1, _Store),
+    Target = lists:nth(N, _Store),
+    {_, Tail} = lists:split(N, _Store),
+    Store = lists:append(lists:append(Head, [[V | Target]]), Tail),
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% xchg
 aheui_fsm([17, Hol, _], Dir, {N, _Store}) ->

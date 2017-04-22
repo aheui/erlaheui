@@ -12,7 +12,7 @@
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-test status: 29 / 33  
+test status: 30 / 33  
 
 |# |테스트코드          |통과              |
 |--|--------------------|------------------|
@@ -35,7 +35,7 @@ test status: 29 / 33
 |17|nieun               |:heavy_check_mark:|
 |18|pieup               |:heavy_check_mark:|
 |19|print               |:heavy_check_mark:|
-|20|queue               |:x:|
+|20|queue               |:heavy_check_mark:|
 |21|rieul               |:heavy_check_mark:|
 |22|shebang             |:heavy_check_mark:|
 |23|ssangbieup          |:heavy_check_mark:|
