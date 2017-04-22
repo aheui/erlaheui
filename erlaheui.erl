@@ -275,8 +275,13 @@ aheui_fsm([8, Hol, _], Dir, {N, _Store}) ->
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% xchg
 aheui_fsm([17, Hol, _], Dir, {N, _Store}) ->
-    Store = xchg({N, _Store}),
-    {hol_to_dir(Hol, Dir), Store};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            Store = xchg({N, _Store}),
+            {hol_to_dir(Hol, Dir), Store};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% select
 aheui_fsm([9, Hol, Bat], Dir, {_, Store}) ->
     {hol_to_dir(Hol, Dir), {Bat+1, Store}};

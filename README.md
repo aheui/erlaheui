@@ -10,11 +10,45 @@
 
     경로를 \"로 감싸는 걸 잊으면 안됩니다.
 
-## [snippets](https://github.com/aheui/snippets) 테스트  
+## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-    $ ./test.sh  
-    $ ...
-    $ test status: 26 / 33  
+test status: 26 / 33  
+
+|# |테스트코드|통과              |
+|--|----------|------------------|
+|1 |bieup-char|:heavy_check_mark:|
+|2 |bieup-sign|:heavy_check_mark:|
+|3 |bieup     |:x:|
+|4 |border    |:heavy_check_mark:|
+|5 |chieut    |:heavy_check_mark:|
+|6 |default-direction|:heavy_check_mark:|
+|7 |default-storage|:heavy_check_mark:|
+|8 |digeut|:heavy_check_mark:|
+|9 |emptyswap|:x:|
+|10|exhausted-storage|:heavy_check_mark:|
+|11|exitcode|:x:|
+|12|hieut-pop|:heavy_check_mark:|
+|13|ieunghieut|:heavy_check_mark:|
+|14|jieut|:heavy_check_mark:|
+|15|loop|:heavy_check_mark:|
+|16|mieum|:heavy_check_mark:|
+|17|nieun|:heavy_check_mark:|
+|18|pieup|:x:|
+|19|print|:heavy_check_mark:|
+|20|queue|:x:|
+|21|rieul|:heavy_check_mark:|
+|22|shebang|:heavy_check_mark:|
+|23|ssangbieup|:heavy_check_mark:|
+|24|ssangdigeut|:heavy_check_mark:|
+|25|ssangsiot|:x:|
+|26|storage|:x:|
+|27|syllable|:heavy_check_mark:|
+|28|tieut|:heavy_check_mark:|
+|29|vowel-2step|:heavy_check_mark:|
+|30|vowel-advanced|:heavy_check_mark:|
+|31|vowel-basic|:heavy_check_mark:|
+|32|vowel-useless|:heavy_check_mark:|
+|33|vowel-useless2|:heavy_check_mark:|
 
 ## 개발환경  
 
