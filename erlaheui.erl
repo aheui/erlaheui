@@ -235,7 +235,7 @@ aheui_fsm([6, Hol, 21], Dir, {N, _Store}) ->
                     io:fwrite("~w", [utf8_to_unicode(A)]),
                     {hol_to_dir(Hol, Dir), {N, Store}};
                 {A, Store} ->
-                    io:fwrite("~w", [A]),
+                    io:fwrite("~p", [A]),
                     {hol_to_dir(Hol, Dir), {N, Store}}
             end;
         _ ->
@@ -476,16 +476,3 @@ lex(237, Y, _) when Y < 158                 -> hangul;
 lex(234, 176, Z) when Z >= 128              -> hangul; 
 lex(237, 158, Z) when Z =< 163              -> hangul; 
 lex(_, _, _)                                -> nop.
-
-%% print all data in current stack or queue
-printlist(L) when length(L) == 0 ->
-    ok;
-printlist(L) ->
-    case length(lists:nth(1, L)) of
-        0 ->
-            ok;
-        _ ->
-            io:format("~p", lists:nth(1, L)),
-            {_, _L} = lists:split(1, L),
-            printlist(_L)
-    end.
