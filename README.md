@@ -14,7 +14,7 @@
 
     $ ./test.sh  
     $ ...
-    $ test status: 21 / 33  
+    $ test status: 26 / 33  
 
 ## 개발환경  
 
