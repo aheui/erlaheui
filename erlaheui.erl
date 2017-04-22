@@ -5,12 +5,12 @@ c(Path) ->
     {ok, Bin} = file:read_file(Path),
     A = binary_to_list(Bin),
     B = make2d(A, []),
-    %io:fwrite("~p~n", [B]),
     erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
 
 erlaheui(Src, X, Y, _Dir, _Store) ->
-    %io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
-    %io:fread("step", "~p"),
+    % for step by step debug.
+    % io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
+    % io:fread("step", "~p"),
     case aheui_fsm(get(Y, X, Src), _Dir, _Store) of
         {{up, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {y, -Step}, Src),
@@ -230,9 +230,14 @@ aheui_fsm([5, Hol, _], Dir, {N, _Store}) ->
 aheui_fsm([6, Hol, 21], Dir, {N, _Store}) ->
     case length(lists:nth(N, _Store)) of
         L when L >= 1 ->
-            {A, Store} = pop_or_dequeue({N, _Store}),
-            io:fwrite("~p", [A]),
-            {hol_to_dir(Hol, Dir), {N, Store}};
+            case pop_or_dequeue({N, _Store}) of
+                {A, Store} when is_list(A) ->
+                    io:fwrite("~w", [utf8_to_unicode(A)]),
+                    {hol_to_dir(Hol, Dir), {N, Store}};
+                {A, Store} ->
+                    io:fwrite("~w", [A]),
+                    {hol_to_dir(Hol, Dir), {N, Store}}
+            end;
         _ ->
             {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
     end;
@@ -240,8 +245,12 @@ aheui_fsm([6, Hol, 21], Dir, {N, _Store}) ->
 aheui_fsm([6, Hol, 27], Dir, {N, _Store}) ->
     case length(lists:nth(N, _Store)) of
         L when L >= 1 ->
-            {A, Store} = pop_or_dequeue({N, _Store}),
-            io:fwrite("~s", [[A]]),
+            case pop_or_dequeue({N, _Store}) of
+                {A, Store} when is_list(A) ->
+                    io:fwrite("~ts", [A]);
+                {A, Store} ->
+                    io:fwrite("~s", [[A]])
+            end,
             {hol_to_dir(Hol, Dir), {N, Store}};
         _ ->
             {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
@@ -262,9 +271,21 @@ aheui_fsm([7, Hol, 21], Dir, {N, _Store}) ->
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% get utf8
 aheui_fsm([7, Hol, 27], Dir, {N, _Store}) ->
-    case io:fread("", "~ts") of
-        {ok, V} ->
-            Store = push_or_enqueue({N, _Store}, [utf8_to_unicode(V)]),
+    case io:fread("", "~c") of
+        {ok, [[V]]} when V < 128 -> % 7bit
+            Store = push_or_enqueue({N, _Store}, V),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        {ok, [[V]]} when V < 224 -> % 11bit
+            {ok, [L]} = io:fread("", "~c"),
+            Store = push_or_enqueue({N, _Store}, [V | L]),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        {ok, [[V]]} when V < 240 -> % 16bit
+            {ok, [L]} = io:fread("", "~2c"),
+            Store = push_or_enqueue({N, _Store}, [V | L]),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        {ok, [[V]]} when V < 248 -> % 21bit
+            {ok, [L]} = io:fread("", "~3c"),
+            Store = push_or_enqueue({N, _Store}, [V | L]),
             {hol_to_dir(Hol, Dir), {N, Store}};
         eof ->
             Store = push_or_enqueue({N, _Store}, 0),

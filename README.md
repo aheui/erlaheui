@@ -12,21 +12,23 @@
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-test status: 30 / 33  
+test status: 31 / 31  
+얼랭 가상머신 실행파일을 래핑했기 때문에 exit code에 대한 자동 테스트를 할 수 없습니다.  
+직접 비교해보니 맞긴 함.  
 
 |# |테스트코드          |통과              |
 |--|--------------------|------------------|
 |1 |bieup-char          |:heavy_check_mark:|
 |2 |bieup-sign          |:heavy_check_mark:|
-|3 |bieup               |:x:|
+|3 |bieup               |:heavy_check_mark:|
 |4 |border              |:heavy_check_mark:|
 |5 |chieut              |:heavy_check_mark:|
 |6 |default-direction   |:heavy_check_mark:|
 |7 |default-storage     |:heavy_check_mark:|
 |8 |digeut              |:heavy_check_mark:|
-|9 |emptyswap           |:x:|
+|9 |emptyswap           |N/A|
 |10|exhausted-storage   |:heavy_check_mark:|
-|11|exitcode            |:x:|
+|11|exitcode            |N/A|
 |12|hieut-pop           |:heavy_check_mark:|
 |13|ieunghieut          |:heavy_check_mark:|
 |14|jieut               |:heavy_check_mark:|

@@ -1,50 +1,358 @@
 Already up-to-date.
 mode: optin / targets: standard
 testset: standard
-  test bieup-char...[92msuccess![0m
-  test bieup-sign...[92msuccess![0m
+  test bieup-char...[91mfail![0m
+    [92mexpected[0m 1+한글😃😄
+    [91mactual[0m   1+한글😃😄0
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:39.658842266 +0900
++++ standard/bieup-char.out	2017-04-22 18:02:42.804689105 +0900
+@@ -1 +1 @@
+-1+한글😃😄0
+\ No newline at end of file
++1+한글😃😄
+\ No newline at end of file
+  test bieup-sign...[91mfail![0m
+    [92mexpected[0m 042-42
+    [91mactual[0m   042-420
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:40.951791018 +0900
++++ standard/bieup-sign.out	2017-04-22 18:02:42.804689105 +0900
+@@ -1 +1 @@
+-042-420
+\ No newline at end of file
++042-42
+\ No newline at end of file
   test bieup...[91mfail![0m
     [92mexpected[0m 4434324453224689979975544481753
-    [91mactual[0m   4434324453224689979975544["밯3"]{"init terminating in do_boot",{{badmatch,eof},[{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,260}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,14}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]},{init,start_em,1,[]}]}}
+    [91mactual[0m   44343244532246899799755444817530
 diff from actual to expected
---- .test.tmp	2017-04-22 15:30:12.961582645 +0900
-+++ standard/bieup.out	2017-04-21 18:17:33.253154690 +0900
+--- .test.tmp	2017-04-22 19:09:42.198741593 +0900
++++ standard/bieup.out	2017-04-22 18:02:42.805689065 +0900
 @@ -1 +1 @@
--4434324453224689979975544["밯3"]{"init terminating in do_boot",{{badmatch,eof},[{erlaheui,aheui_fsm,3,[{file,"erlaheui.erl"},{line,260}]},{erlaheui,erlaheui,5,[{file,"erlaheui.erl"},{line,14}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,569}]},{erl_eval,exprs,5,[{file,"erl_eval.erl"},{line,118}]},{init,start_it,1,[]},{init,start_em,1,[]}]}}
+-44343244532246899799755444817530
+\ No newline at end of file
 +4434324453224689979975544481753
 \ No newline at end of file
-  test border...[92msuccess![0m
-  test chieut...[92msuccess![0m
-  test default-direction...[92msuccess![0m
-  test default-storage...[92msuccess![0m
-  test digeut...[92msuccess![0m
+  test border...[91mfail![0m
+    [92mexpected[0m 369
+    [91mactual[0m   3690
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:43.435692564 +0900
++++ standard/border.out	2017-04-22 18:02:42.805689065 +0900
+@@ -1 +1 @@
+-3690
+\ No newline at end of file
++369
+\ No newline at end of file
+  test chieut...[91mfail![0m
+    [92mexpected[0m 33
+    [91mactual[0m   330
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:44.673643496 +0900
++++ standard/chieut.out	2017-04-22 18:02:42.805689065 +0900
+@@ -1 +1 @@
+-330
+\ No newline at end of file
++33
+\ No newline at end of file
+  test default-direction...[91mfail![0m
+    [92mexpected[0m 2
+    [91mactual[0m   20
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:45.932593595 +0900
++++ standard/default-direction.out	2017-04-22 18:02:42.805689065 +0900
+@@ -1 +1 @@
+-20
+\ No newline at end of file
++2
+\ No newline at end of file
+  test default-storage...[91mfail![0m
+    [92mexpected[0m 9
+    [91mactual[0m   90
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:47.219542584 +0900
++++ standard/default-storage.out	2017-04-22 18:02:42.806689026 +0900
+@@ -1 +1 @@
+-90
+\ No newline at end of file
++9
+\ No newline at end of file
+  test digeut...[91mfail![0m
+    [92mexpected[0m 5
+    [91mactual[0m   50
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:48.457493515 +0900
++++ standard/digeut.out	2017-04-22 18:02:42.806689026 +0900
+@@ -1 +1 @@
+-50
+\ No newline at end of file
++5
+\ No newline at end of file
   test emptyswap...[91mfail![0m
-    [92mexpected exitcode[0m 2
-    [91mactual exitcode[0m   0
-  test exhausted-storage...[92msuccess![0m
+    [92mexpected[0m 
+    [91mactual[0m   2
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:49.741442624 +0900
++++ standard/emptyswap.out	2017-04-22 18:02:42.806689026 +0900
+@@ -1 +0,0 @@
+-2
+\ No newline at end of file
+  test exhausted-storage...[91mfail![0m
+    [92mexpected[0m 3
+    [91mactual[0m   30
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:50.995392921 +0900
++++ standard/exhausted-storage.out	2017-04-22 18:02:42.807688986 +0900
+@@ -1 +1 @@
+-30
+\ No newline at end of file
++3
+\ No newline at end of file
   test exitcode...[91mfail![0m
-    [92mexpected exitcode[0m 2
-    [91mactual exitcode[0m   0
-  test hieut-pop...[92msuccess![0m
-  test ieunghieut...[92msuccess![0m
-  test jieut...[92msuccess![0m
-  test loop...[92msuccess![0m
-  test mieum...[92msuccess![0m
-  test nieun...[92msuccess![0m
-  test pieup...[92msuccess![0m
-  test print...[92msuccess![0m
-  test queue...[92msuccess![0m
-  test rieul...[92msuccess![0m
-  test shebang...[92msuccess![0m
-  test ssangbieup...[92msuccess![0m
-  test ssangdigeut...[92msuccess![0m
-  test ssangsiot...[92msuccess![0m
-  test storage...[92msuccess![0m
-  test syllable...[92msuccess![0m
-  test tieut...[92msuccess![0m
-  test vowel-2step...[92msuccess![0m
-  test vowel-advanced...[92msuccess![0m
-  test vowel-basic...[92msuccess![0m
-  test vowel-useless...[92msuccess![0m
-  test vowel-useless2...[92msuccess![0m
-test status: 30/[92m33[0m
+    [92mexpected[0m 
+    [91mactual[0m   2
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:52.221344328 +0900
++++ standard/exitcode.out	2017-04-22 18:02:42.807688986 +0900
+@@ -1 +0,0 @@
+-2
+\ No newline at end of file
+  test hieut-pop...[91mfail![0m
+    [92mexpected[0m 
+    [91mactual[0m   0
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:53.446295775 +0900
++++ standard/hieut-pop.out	2017-04-22 18:02:42.807688986 +0900
+@@ -1 +0,0 @@
+-0
+\ No newline at end of file
+  test ieunghieut...[91mfail![0m
+    [92mexpected[0m 
+    [91mactual[0m   0
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:54.726245042 +0900
++++ standard/ieunghieut.out	2017-04-22 18:02:42.807688986 +0900
+@@ -1 +0,0 @@
+-0
+\ No newline at end of file
+  test jieut...[91mfail![0m
+    [92mexpected[0m 110
+    [91mactual[0m   1100
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:09:55.979195379 +0900
++++ standard/jieut.out	2017-04-22 18:02:42.808688946 +0900
+@@ -1 +1 @@
+-1100
+\ No newline at end of file
++110
+\ No newline at end of file
+  test loop...[91mfail![0m
+    [92mexpected[0m 0
+    [91mactual[0m   00
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:05.375822926 +0900
++++ standard/loop.out	2017-04-22 18:02:42.808688946 +0900
+@@ -1 +1 @@
+-00
+\ No newline at end of file
++0
+\ No newline at end of file
+  test mieum...[91mfail![0m
+    [92mexpected[0m 950
+    [91mactual[0m   9500
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:06.619773620 +0900
++++ standard/mieum.out	2017-04-22 18:02:42.808688946 +0900
+@@ -1 +1 @@
+-9500
+\ No newline at end of file
++950
+\ No newline at end of file
+  test nieun...[91mfail![0m
+    [92mexpected[0m 3
+    [91mactual[0m   30
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:07.855724631 +0900
++++ standard/nieun.out	2017-04-22 18:02:42.808688946 +0900
+@@ -1 +1 @@
+-30
+\ No newline at end of file
++3
+\ No newline at end of file
+  test pieup...[91mfail![0m
+    [92mexpected[0m 81494981
+    [91mactual[0m   814949810
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:09.104675126 +0900
++++ standard/pieup.out	2017-04-22 18:02:42.808688946 +0900
+@@ -1 +1 @@
+-814949810
+\ No newline at end of file
++81494981
+\ No newline at end of file
+  test print...[91mfail![0m
+    [92mexpected[0m 97a
+    [91mactual[0m   97a0
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:10.341626097 +0900
++++ standard/print.out	2017-04-22 18:02:42.809688906 +0900
+@@ -1 +1 @@
+-97a0
+\ No newline at end of file
++97a
+\ No newline at end of file
+  test queue...[91mfail![0m
+    [92mexpected[0m 235223
+    [91mactual[0m   2352230
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:11.613575681 +0900
++++ standard/queue.out	2017-04-22 18:02:42.809688906 +0900
+@@ -1 +1 @@
+-2352230
+\ No newline at end of file
++235223
+\ No newline at end of file
+  test rieul...[91mfail![0m
+    [92mexpected[0m 4
+    [91mactual[0m   40
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:12.828527524 +0900
++++ standard/rieul.out	2017-04-22 18:02:42.809688906 +0900
+@@ -1 +1 @@
+-40
+\ No newline at end of file
++4
+\ No newline at end of file
+  test shebang...[91mfail![0m
+    [92mexpected[0m 2
+    [91mactual[0m   20
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:14.057478812 +0900
++++ standard/shebang.out	2017-04-22 18:02:42.809688906 +0900
+@@ -1 +1 @@
+-20
+\ No newline at end of file
++2
+\ No newline at end of file
+  test ssangbieup...[91mfail![0m
+    [92mexpected[0m 8181
+    [91mactual[0m   81810
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:15.286430101 +0900
++++ standard/ssangbieup.out	2017-04-22 18:02:42.810688867 +0900
+@@ -1 +1 @@
+-81810
+\ No newline at end of file
++8181
+\ No newline at end of file
+  test ssangdigeut...[91mfail![0m
+    [92mexpected[0m 45
+    [91mactual[0m   450
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:16.541380358 +0900
++++ standard/ssangdigeut.out	2017-04-22 18:02:42.810688867 +0900
+@@ -1 +1 @@
+-450
+\ No newline at end of file
++45
+\ No newline at end of file
+  test ssangsiot...[91mfail![0m
+    [92mexpected[0m 320320320320320320320320320
+    [91mactual[0m   3203203203203203203203203200
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:17.830329268 +0900
++++ standard/ssangsiot.out	2017-04-22 18:02:42.810688867 +0900
+@@ -1 +1 @@
+-3203203203203203203203203200
+\ No newline at end of file
++320320320320320320320320320
+  test storage...[91mfail![0m
+    [92mexpected[0m 320320320320320320320320023320320320320320
+    [91mactual[0m   3203203203203203203203200233203203203203200
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:19.082279645 +0900
++++ standard/storage.out	2017-04-22 18:02:42.810688867 +0900
+@@ -1 +1 @@
+-3203203203203203203203200233203203203203200
+\ No newline at end of file
++320320320320320320320320023320320320320320
+\ No newline at end of file
+  test syllable...[91mfail![0m
+    [92mexpected[0m 3
+    [91mactual[0m   30
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:20.368228674 +0900
++++ standard/syllable.out	2017-04-22 18:02:42.811688827 +0900
+@@ -1 +1 @@
+-30
+\ No newline at end of file
++3
+\ No newline at end of file
+  test tieut...[91mfail![0m
+    [92mexpected[0m 1
+    [91mactual[0m   10
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:21.611179407 +0900
++++ standard/tieut.out	2017-04-22 18:02:42.811688827 +0900
+@@ -1 +1 @@
+-10
+\ No newline at end of file
++1
+\ No newline at end of file
+  test vowel-2step...[91mfail![0m
+    [92mexpected[0m 3596
+    [91mactual[0m   35960
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:22.906128080 +0900
++++ standard/vowel-2step.out	2017-04-22 18:02:42.811688827 +0900
+@@ -1 +1 @@
+-35960
+\ No newline at end of file
++3596
+\ No newline at end of file
+  test vowel-advanced...[91mfail![0m
+    [92mexpected[0m 543295432954329
+    [91mactual[0m   5432954329543290
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:24.130079566 +0900
++++ standard/vowel-advanced.out	2017-04-22 18:02:42.811688827 +0900
+@@ -1 +1 @@
+-5432954329543290
+\ No newline at end of file
++543295432954329
+\ No newline at end of file
+  test vowel-basic...[91mfail![0m
+    [92mexpected[0m 369
+    [91mactual[0m   3690
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:25.416028595 +0900
++++ standard/vowel-basic.out	2017-04-22 18:02:42.812688787 +0900
+@@ -1 +1 @@
+-3690
+\ No newline at end of file
++369
+\ No newline at end of file
+  test vowel-useless...[91mfail![0m
+    [92mexpected[0m 54320543205432054320
+    [91mactual[0m   543205432054320543200
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:26.649979685 +0900
++++ standard/vowel-useless.out	2017-04-22 18:02:42.812688787 +0900
+@@ -1 +1 @@
+-543205432054320543200
+\ No newline at end of file
++54320543205432054320
+\ No newline at end of file
+  test vowel-useless2...[91mfail![0m
+    [92mexpected[0m 54320543205432054320
+    [91mactual[0m   543205432054320543200
+diff from actual to expected
+--- .test.tmp	2017-04-22 19:10:27.877931013 +0900
++++ standard/vowel-useless2.out	2017-04-22 18:02:42.812688787 +0900
+@@ -1 +1 @@
+-543205432054320543200
+\ No newline at end of file
++54320543205432054320
+\ No newline at end of file
+test status: 0/[92m33[0m
