@@ -6,7 +6,7 @@ c(Path) ->
     A = binary_to_list(Bin),
     B = make2d(A, []),
     %io:fwrite("~p~n", [B]),
-    ok = erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
+    erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
 
 erlaheui(Src, X, Y, _Dir, _Store) ->
     % io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
@@ -24,8 +24,8 @@ erlaheui(Src, X, Y, _Dir, _Store) ->
         {{left, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {x, -Step}, Src),
             erlaheui(Src, XX, YY, {left, Step}, Store);
-        eoa ->
-            ok
+        {eoa, V} ->
+            V
     end.
 
 %% recursive
@@ -137,7 +137,7 @@ push_or_enqueue({22, _Store}, V) ->
     {Head, _} = lists:split(21, _Store),
     Target = lists:nth(22, _Store),
     {_, Tail} = lists:split(22, _Store),
-    lists:append(Head, lists:append(lists:append(Target, V), Tail));
+    lists:append(lists:append(Head, [lists:append(Target, [V])]), Tail);
 %% push
 push_or_enqueue({N, _Store}, V) -> 
     {Head, _} = lists:split(N - 1, _Store),
@@ -164,8 +164,13 @@ aheui_fsm([11, Hol, _], Dir, Store) ->
     {hol_to_dir(Hol, Dir), Store};
 %% end of aheui
 aheui_fsm([18, _, _], _, {N, Store}) -> 
-    printlist([lists:nth(N, Store)]),
-    eoa;
+    case length(lists:nth(N, Store)) of
+        L when L == 0 ->
+            {eoa, 0};
+        _ ->
+            {V, _} = pop_or_dequeue({N, Store}),
+            {eoa, V}
+    end;
 %% add
 aheui_fsm([3, Hol, _], Dir, {N, _Store}) ->
     case length(lists:nth(N, _Store)) of
@@ -455,7 +460,7 @@ printlist(L) ->
         0 ->
             ok;
         _ ->
-            io:format("~ts", lists:nth(1, L)),
+            io:format("~p", lists:nth(1, L)),
             {_, _L} = lists:split(1, L),
             printlist(_L)
     end.
