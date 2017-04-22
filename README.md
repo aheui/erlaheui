@@ -8,7 +8,7 @@
     Hello, world!
     $ 
 
-    경로를 \"로 감싸는 걸 잊으면 안됩니다.
+경로를 \"로 감싸는 걸 잊으면 안됩니다.
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
