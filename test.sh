@@ -1,5 +1,7 @@
 #!/bin/bash
-
+if [ ! -e erlaheui.beam ]; then
+    erlc erlaheui.erl
+fi
 if [ -e snippets ]; then
     cd snippets
     git pull
