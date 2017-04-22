@@ -5,11 +5,12 @@ c(Path) ->
     {ok, Bin} = file:read_file(Path),
     A = binary_to_list(Bin),
     B = make2d(A, []),
-    % io:fwrite("~p~n", [B]),
+    %io:fwrite("~p~n", [B]),
     ok = erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
 
 erlaheui(Src, X, Y, _Dir, _Store) ->
     % io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
+    % io:fread("step", "~p"),
     case aheui_fsm(get(Y, X, Src), _Dir, _Store) of
         {{up, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {y, -Step}, Src),
@@ -33,15 +34,17 @@ where_to_go(Current, {Dir, Step}, Map) when Step < -1 ->
 where_to_go(Current, {Dir, Step}, Map) when Step > 1 ->
     where_to_go(where_to_go(Current, {Dir, Step-1}, Map), {Dir, 1}, Map);
 
-where_to_go({X, Y}, {y, -1}, Map) when Y-1 < 1 ->
-    where_to_go({X, length(Map)}, {y, -1}, Map);
+where_to_go({X, Y}, {y, -1}, Map) when Y < 1 ->
+    % io:fwrite("Y lower limit~n"),
+    where_to_go({X, length(Map) + 1}, {y, -1}, Map);
 where_to_go({X, Y}, {y, -1}, Map) ->
     case can_i_move_to({X, Y-1}, Map) of
         yes -> {X, Y-1};
         no -> where_to_go({X, Y-1}, {y, -1}, Map)
     end;
 where_to_go({X, Y}, {y, 1}, Map) when Y > length(Map) ->
-    where_to_go({X, 1}, {y, 1}, Map);
+    % io:fwrite("Y upper limit~n"),
+    where_to_go({X, 0}, {y, 1}, Map);
 where_to_go({X, Y}, {y, 1}, Map) ->
     case can_i_move_to({X, Y+1}, Map) of
         yes -> {X, Y+1};
@@ -51,7 +54,8 @@ where_to_go({X, Y}, {y, 1}, Map) ->
 where_to_go({X, Y}, {x, 1}, Map) ->
     case X - length(lists:nth(Y, Map)) of
         D when D > 0 ->
-            where_to_go({1, Y}, {x, 1}, Map);
+            % io:fwrite("X upper limit~n"),
+            where_to_go({0, Y}, {x, 1}, Map);
         _ ->
             case can_i_move_to({X+1, Y}, Map) of
                 yes -> {X+1, Y};
@@ -59,7 +63,8 @@ where_to_go({X, Y}, {x, 1}, Map) ->
             end
     end;
 where_to_go({X, Y}, {x, -1}, Map) when X < 1 ->
-    where_to_go({length(lists:nth(Y, Map)), Y}, {x, -1}, Map);
+    % io:fwrite("X Lower limit ~p~n", [length(lists:nth(Y, Map))]),
+    where_to_go({length(lists:nth(Y, Map)) + 1, Y}, {x, -1}, Map);
 where_to_go({X, Y}, {x, -1}, Map) ->
     case can_i_move_to({X-1, Y}, Map) of
         yes -> {X-1, Y};
@@ -77,6 +82,25 @@ is_nop(A) when A < 44032 -> true;   %% 0xAC00
 is_nop(A) when A > 55199 -> true;   %% 0xD79F
 is_nop(_) -> false.                 %% 0xAC00 ~ 0xD79F
 
+%% utf8 to unicode
+utf8_to_unicode([A1]) -> A1;
+utf8_to_unicode([A1,A2]) ->
+    {B1,B2} = {A1 - 192, A2- 128},
+    {C1, C2} = {B1 bsr 2, 
+         ((B1 band 3) bsl 6) + B2},
+    (C1 bsl 8) + C2;
+utf8_to_unicode([A1,A2,A3]) ->
+    {B1,B2,B3} = {A1 - 224, A2- 128, A3 - 128},
+    {C1, C2} = {(B1 bsl 4) + (B2 bsr 2), 
+         ((B2 band 3) bsl 6) + B3},
+    (C1 bsl 8) + C2;
+utf8_to_unicode([A1,A2,A3,A4]) ->
+    {B1,B2,B3,B4} = {A1 - 240, A2- 128, A3 - 128, A4 - 128},
+    {C1, C2, C3} = {(B1 bsl 2) + (B2 bsr 4), 
+         ((B2 band 15) bsl 4) + (B3 bsr 2),
+         ((B2 band 3) bsl 6) + B4},
+    (C1 bsl 16) + (C2 bsl 8) + C3.
+    
 %% separate hol and dat sound
 jamo(B) when is_list(B) ->
     C = [lists:nth(1, B) - 224, lists:nth(2, B) - 128, lists:nth(3, B) - 128],
@@ -144,58 +168,98 @@ aheui_fsm([18, _, _], _, {N, Store}) ->
     eoa;
 %% add
 aheui_fsm([3, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    Store = push_or_enqueue({N, Store2}, A+B),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            Store = push_or_enqueue({N, Store2}, A+B),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% mul
 aheui_fsm([4, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    Store = push_or_enqueue({N, Store2}, A*B),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            Store = push_or_enqueue({N, Store2}, A*B),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% sub
 aheui_fsm([16, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    Store = push_or_enqueue({N, Store2}, B-A),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            Store = push_or_enqueue({N, Store2}, B-A),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% div
 aheui_fsm([2, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    Store = push_or_enqueue({N, Store2}, trunc(B/A)),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            Store = push_or_enqueue({N, Store2}, trunc(B/A)),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% rem
 aheui_fsm([5, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    Store = push_or_enqueue({N, Store2}, B rem A),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            Store = push_or_enqueue({N, Store2}, B rem A),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% print int
 aheui_fsm([6, Hol, 21], Dir, {N, _Store}) ->
-    {A, Store} = pop_or_dequeue({N, _Store}),
-    io:fwrite("~p", [A]),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            {A, Store} = pop_or_dequeue({N, _Store}),
+            io:fwrite("~p", [A]),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% print utf8
 aheui_fsm([6, Hol, 27], Dir, {N, _Store}) ->
-    {A, Store} = pop_or_dequeue({N, _Store}),
-    io:fwrite("~s", [[A]]),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            {A, Store} = pop_or_dequeue({N, _Store}),
+            io:fwrite("~s", [[A]]),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% just pop
 aheui_fsm([6, Hol, _], Dir, {N, _Store}) ->
-    {_, Store} = pop_or_dequeue({N, _Store}),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            {_, Store} = pop_or_dequeue({N, _Store}),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% get integer
 aheui_fsm([7, Hol, 21], Dir, {N, _Store}) ->
-    {ok, V} = io:fread("", "~d"),
+    {ok, [V]} = io:fread("", "~d"),
     Store = push_or_enqueue({N, _Store}, V),
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% get utf8
 aheui_fsm([7, Hol, 27], Dir, {N, _Store}) ->
-    case io:fread("", "~s") of
+    case io:fread("", "~ts") of
         {ok, V} ->
-            Store = push_or_enqueue({N, _Store}, V),
+            Store = push_or_enqueue({N, _Store}, [utf8_to_unicode(V)]),
             {hol_to_dir(Hol, Dir), {N, Store}};
         eof ->
             Store = push_or_enqueue({N, _Store}, 0),
@@ -218,28 +282,43 @@ aheui_fsm([9, Hol, Bat], Dir, {_, Store}) ->
     {hol_to_dir(Hol, Dir), {Bat+1, Store}};
 %% pop push
 aheui_fsm([10, Hol, Bat], Dir, {N, _Store}) ->
-    {V, Store1} = pop_or_dequeue({N, _Store}),
-    Store = push_or_enqueue({Bat+1, Store1}, V),
-    {hol_to_dir(Hol, Dir), {N, Store}};
-%% cmp
-aheui_fsm([12, Hol, _], Dir, {N, _Store}) ->
-    {A, Store1} = pop_or_dequeue({N, _Store}),
-    {B, Store2} = pop_or_dequeue({N, Store1}),
-    case {A, B} of
-        {A, B} when B >= A ->
-            Store = push_or_enqueue({N, Store2}, 1),
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            {V, Store1} = pop_or_dequeue({N, _Store}),
+            Store = push_or_enqueue({Bat+1, Store1}, V),
             {hol_to_dir(Hol, Dir), {N, Store}};
         _ ->
-            Store = push_or_enqueue({N, Store2}, 0),
-            {hol_to_dir(Hol, Dir), {N, Store}}
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
+%% cmp
+aheui_fsm([12, Hol, _], Dir, {N, _Store}) ->
+    case length(lists:nth(N, _Store)) of
+        L when L >= 2 ->
+            {A, Store1} = pop_or_dequeue({N, _Store}),
+            {B, Store2} = pop_or_dequeue({N, Store1}),
+            case {A, B} of
+                {A, B} when B >= A ->
+                    Store = push_or_enqueue({N, Store2}, 1),
+                    {hol_to_dir(Hol, Dir), {N, Store}};
+                _ ->
+                    Store = push_or_enqueue({N, Store2}, 0),
+                    {hol_to_dir(Hol, Dir), {N, Store}}
+            end;
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
     end;
 %% cond
 aheui_fsm([14, Hol, _], Dir, {N, _Store}) ->
-    case pop_or_dequeue({N, _Store}) of
-        {0, Store} ->
-            {reverse_dir(hol_to_dir(Hol, Dir)), {N, Store}};
-        {_, Store} ->
-            {hol_to_dir(Hol, Dir), {N, Store}}
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            case pop_or_dequeue({N, _Store}) of
+                {0, Store} ->
+                    {reverse_dir(hol_to_dir(Hol, Dir)), {N, Store}};
+                {_, Store} ->
+                    {hol_to_dir(Hol, Dir), {N, Store}}
+            end;
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
     end;
 %% nop
 aheui_fsm(_, Dir, Store) -> aheui_fsm(11, Dir, Store).
