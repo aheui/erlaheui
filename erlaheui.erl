@@ -107,9 +107,9 @@ unicode_to_utf8(V) when V < 128 ->      % 7bit
 unicode_to_utf8(V) when V < 2048 ->     % 11bit
     [192 + (V bsr 6), 128 + (V band 63)];
 unicode_to_utf8(V) when V < 65536 ->    % 16bit
-    [224 + (V bsr 12), 128 + ((V band 4032) bsr 6), (V band 63)];
+    [224 + (V bsr 12), 128 + ((V band 4032) bsr 6), 128 + (V band 63)];
 unicode_to_utf8(V) when V < 2097152 ->  % 21bit
-    [240 + (V bsr 18), 128 + ((V band 208048) bsr 12), 128 + ((V band 4032) bsr 6), (V band 63)].
+    [240 + (V bsr 18), 128 + ((V band 208048) bsr 12), 128 + ((V band 4032) bsr 6), 128 + (V band 63)].
 
     
 %% separate hol and dat sound
