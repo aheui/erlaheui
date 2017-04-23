@@ -12,9 +12,16 @@
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-test status: 33 / 33  
-얼랭 가상머신 실행파일을 래핑했기 때문에 exit code에 대한 자동 테스트를 할 수 없습니다.  
+얼랭 가상머신 실행파일을 래핑했기 때문에 exit code에 대한 자동 테스트는 할 수 없습니다.  
 직접 비교해보니 맞긴 함.  
+
+    $ ./test.sh [테스트셋 = standard]
+    test bieup-char...success!
+    test bieup-sign...success!
+    test bieup...success!
+    ...
+    test status: 31/33
+    $ 
 
 |# |테스트코드          |통과              |
 |--|--------------------|------------------|
