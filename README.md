@@ -12,7 +12,7 @@
 
 ## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
-test status: 31 / 31  
+test status: 33 / 33  
 얼랭 가상머신 실행파일을 래핑했기 때문에 exit code에 대한 자동 테스트를 할 수 없습니다.  
 직접 비교해보니 맞긴 함.  
 
@@ -51,6 +51,8 @@ test status: 31 / 31
 |31|vowel-basic         |:heavy_check_mark:|
 |32|vowel-useless       |:heavy_check_mark:|
 |33|vowel-useless2      |:heavy_check_mark:|
+|34|quine.puzzlet.40col |:heavy_check_mark:|
+|35|quine.puzzlet       |:heavy_check_mark:|
 
 ## 개발환경  
 
