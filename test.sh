@@ -1,7 +1,5 @@
 #!/bin/bash
-if [ ! -e erlaheui.beam ]; then
-    erlc erlaheui.erl
-fi
+erlc erlaheui.erl
 if [ -e snippets ]; then
     cd snippets
     git pull
@@ -10,4 +8,9 @@ else
     cd snippets
 fi
 chmod 755 ../run.sh
-AHEUI="../run.sh" bash ./test.sh standard
+
+if [ $# -eq 0 ]; then
+    AHEUI="../run.sh" bash ./test.sh standard
+else
+    AHEUI="../run.sh" bash ./test.sh $1
+fi
