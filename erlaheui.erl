@@ -100,6 +100,17 @@ utf8_to_unicode([A1,A2,A3,A4]) ->
          ((B2 band 15) bsl 4) + (B3 bsr 2),
          ((B2 band 3) bsl 6) + B4},
     (C1 bsl 16) + (C2 bsl 8) + C3.
+
+%% unicode to utf8
+unicode_to_utf8(V) when V < 128 ->      % 7bit
+    V;
+unicode_to_utf8(V) when V < 2048 ->     % 11bit
+    [192 + (V bsr 6), 128 + (V band 63)];
+unicode_to_utf8(V) when V < 65536 ->    % 16bit
+    [224 + (V bsr 12), 128 + ((V band 4032) bsr 6), (V band 63)];
+unicode_to_utf8(V) when V < 2097152 ->  % 21bit
+    [240 + (V bsr 18), 128 + ((V band 208048) bsr 12), 128 + ((V band 4032) bsr 6), (V band 63)].
+
     
 %% separate hol and dat sound
 jamo(B) when is_list(B) ->
@@ -116,17 +127,18 @@ jamo(B) when is_list(B) ->
              (E - 44032) rem 28]
     end.
 
-get(RowI, _, _) when RowI < 1 -> {error, no_coord_Y};
-get(_, ColI, _) when ColI < 1 -> {error, no_coord_X};
+get(RowI, _, _) when RowI < 1 ->
+    {error, y_lower_bound};
+get(_, ColI, _) when ColI < 1 -> {error, x_lower_bound};
 get(RowI, ColI, A) ->
     case length(A) of
         Ylen when Ylen < RowI ->
-            {error, no_coord_Y};
+            {error, y_upper_bound};
         _ ->
             Row = lists:nth(RowI, A),
             case length(Row) of
                 Xlen when Xlen < ColI ->
-                    {error, no_coord_X};
+                    {error, x_upper_bound};
                 _ ->
                     lists:nth(ColI, Row)
             end
@@ -248,6 +260,8 @@ aheui_fsm([6, Hol, 27], Dir, {N, _Store}) ->
             case pop_or_dequeue({N, _Store}) of
                 {A, Store} when is_list(A) ->
                     io:fwrite("~ts", [A]);
+                {A, Store} when A > 128  ->
+                    io:fwrite("~s", [unicode_to_utf8(A)]);
                 {A, Store} ->
                     io:fwrite("~s", [[A]])
             end,
@@ -297,12 +311,17 @@ aheui_fsm([7, Hol, Bat], Dir, {N, _Store}) ->
     {hol_to_dir(Hol, Dir), {N, Store}};
 %% dup
 aheui_fsm([8, Hol, _], Dir, {N, _Store}) ->
-    V = top({N, _Store}),
-    {Head, _} = lists:split(N - 1, _Store),
-    Target = lists:nth(N, _Store),
-    {_, Tail} = lists:split(N, _Store),
-    Store = lists:append(lists:append(Head, [[V | Target]]), Tail),
-    {hol_to_dir(Hol, Dir), {N, Store}};
+    case length(lists:nth(N, _Store)) of
+        L when L >= 1 ->
+            V = top({N, _Store}),
+            {Head, _} = lists:split(N - 1, _Store),
+            Target = lists:nth(N, _Store),
+            {_, Tail} = lists:split(N, _Store),
+            Store = lists:append(lists:append(Head, [[V | Target]]), Tail),
+            {hol_to_dir(Hol, Dir), {N, Store}};
+        _ ->
+            {reverse_dir(hol_to_dir(Hol, Dir)), {N, _Store}}
+    end;
 %% xchg
 aheui_fsm([17, Hol, _], Dir, {N, _Store}) ->
     case length(lists:nth(N, _Store)) of
