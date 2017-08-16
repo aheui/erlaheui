@@ -60,6 +60,7 @@
 |33|vowel-useless2      |:heavy_check_mark:|
 |34|quine.puzzlet.40col |:heavy_check_mark:|
 |35|quine.puzzlet       |:heavy_check_mark:|
+|36|pi.puzzlet          |:heavy_check_mark:|
 
 ## 개발환경  
 
