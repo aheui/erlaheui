@@ -4,7 +4,7 @@ if [ -e snippets ]; then
     cd snippets
     git pull
 else
-    git clone http://github.com/aheui/snippets
+    git clone https://github.com/aheui/snippets
     cd snippets
 fi
 chmod 755 ../run.sh
