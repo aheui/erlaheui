@@ -1,19 +1,23 @@
-# 얼라희  
+얼라희  
+========
 얼라희는 [아희](http://aheui.github.io/)의 얼랭(erlang) 구현체입니다.  
 
-## 실행  
+## 빌드
 
-    $ erlc erlaheui.erl
-    $ erl -noshell -eval "erlaheui:c(\"hello-world.puzzlet.aheui\"), init:stop()"
+    $ rebar3 compile
+
+## 실행
+
+    $ rebar3 shell
+    ===> Verifying dependencies...
+    ===> Compiling erlaheui
+    Eshell V8.3 (abort with ^G)
+    1> erlaheui:c("../snippets/hello-world/hello-world.puzzlet.aheui").
     Hello, world!
-    $ 
+    {ok, 0}
 
-경로를 \\"로 감싸는 걸 잊으면 안됩니다.
-
-## 아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
-
-얼랭 가상머신 실행파일을 래핑했기 때문에 exit code에 대한 자동 테스트는 할 수 없습니다.  
-직접 비교해보니 맞긴 함.  
+## 테스트
+아희 표준 [snippets](https://github.com/aheui/snippets) 테스트  
 
     $ ./test.sh [테스트셋 = standard]
     test bieup-char...success!
@@ -69,4 +73,3 @@
 |Erlang emulator|Erlang OTP|
 |---------------|----------|
 |5.10.4         |R16B03-1  |  
-

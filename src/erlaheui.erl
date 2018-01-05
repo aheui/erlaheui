@@ -1,16 +1,63 @@
+%% Copyright (c) 2017-2018 Sungwoo Kim
+%% 
+%% Permission is hereby granted, free of charge, to any person obtaining a copy
+%% of this software and associated documentation files (the "Software"), to deal
+%% in the Software without restriction, including without limitation the rights
+%% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%% copies of the Software, and to permit persons to whom the Software is
+%% furnished to do so, subject to the following conditions:
+%% 
+%% The above copyright notice and this permission notice shall be included in all
+%% copies or substantial portions of the Software.
+%% 
+%% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+%% SOFTWARE.
+
+%% @author Sungwoo Kim <hero.sungwoo@gmail.com>
+%% @copyright 2017-2018 Sungwoo Kim
+%% @doc Erlaheui, the aheui implementation in erlang.
+
 -module(erlaheui).
+
+%% API exports
 -export([c/1]).
 
-c(Path) ->
-    {ok, Bin} = file:read_file(Path),
-    A = binary_to_list(Bin),
-    B = make2d(A, []),
-    erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)}).
+%%====================================================
+%% API functions
+%%====================================================
 
+%% @doc Input aheui source code path.
+-spec c(string()) -> {ok, integer()} | {error, atom()}.
+c(Path) ->
+    case file:read_file(Path) of
+        {ok, Bin} ->
+            A = binary_to_list(Bin),
+            B = make2d(A, []),
+            {ok, erlaheui(B, 1, 1, {down, 1}, {1, create_list(27)})};
+        Error ->
+            Error
+    end.
+
+
+%%====================================================================
+%% Internal functions
+%%====================================================================
+%% erlaheui(Aheui source code, Instruction coord X, Instruction coord Y, {Direction and step}, Storage)
+%%          [[ ... ],                            1,                   1, {down,            1}, [[ ... ],   &lt- stack
+%%           [ ... ],                                                                           [ ... ],   &lt- stack
+%%              .                                                                                  .            .
+%%              .                                                                                  .       &lt- queue(22th)
+%%              .                                                                                  .            .
+%%           [ ... ],                                                                           [ ... ],   &lt- stack
+%%           [ ... ]],                                                                          [ ... ]]   &lt- stack(25th)
+%% @doc Interprete aheui matrix.
+-spec erlaheui(list(), integer(), integer(), atom(), list()) -> {eoa, integer()}.
 erlaheui(Src, X, Y, _Dir, _Store) ->
-    % for step by step debug.
-    % io:fwrite("~p, ~p, ~p, ~p, ~p~n", [X, Y, get(Y, X, Src), _Dir, _Store]),
-    % io:fread("step", "~p"),
     case aheui_fsm(get(Y, X, Src), _Dir, _Store) of
         {{up, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {y, -Step}, Src),
@@ -24,8 +71,11 @@ erlaheui(Src, X, Y, _Dir, _Store) ->
         {{left, Step}, Store} ->
             {XX, YY} = where_to_go({X, Y}, {x, -Step}, Src),
             erlaheui(Src, XX, YY, {left, Step}, Store);
+        %% end of aheui, ㅎ
         {eoa, V} ->
-            V
+            V;
+        Error ->
+            Error
     end.
 
 %% recursive
@@ -35,7 +85,6 @@ where_to_go(Current, {Dir, Step}, Map) when Step > 1 ->
     where_to_go(where_to_go(Current, {Dir, Step-1}, Map), {Dir, 1}, Map);
 
 where_to_go({X, Y}, {y, -1}, Map) when Y < 1 ->
-    % io:fwrite("Y lower limit~n"),
     where_to_go({X, length(Map) + 1}, {y, -1}, Map);
 where_to_go({X, Y}, {y, -1}, Map) ->
     case can_i_move_to({X, Y-1}, Map) of
@@ -43,7 +92,6 @@ where_to_go({X, Y}, {y, -1}, Map) ->
         no -> where_to_go({X, Y-1}, {y, -1}, Map)
     end;
 where_to_go({X, Y}, {y, 1}, Map) when Y > length(Map) ->
-    % io:fwrite("Y upper limit~n"),
     where_to_go({X, 0}, {y, 1}, Map);
 where_to_go({X, Y}, {y, 1}, Map) ->
     case can_i_move_to({X, Y+1}, Map) of
@@ -54,7 +102,6 @@ where_to_go({X, Y}, {y, 1}, Map) ->
 where_to_go({X, Y}, {x, 1}, Map) ->
     case X - length(lists:nth(Y, Map)) of
         D when D > 0 ->
-            % io:fwrite("X upper limit~n"),
             where_to_go({0, Y}, {x, 1}, Map);
         _ ->
             case can_i_move_to({X+1, Y}, Map) of
@@ -63,7 +110,6 @@ where_to_go({X, Y}, {x, 1}, Map) ->
             end
     end;
 where_to_go({X, Y}, {x, -1}, Map) when X < 1 ->
-    % io:fwrite("X Lower limit ~p~n", [length(lists:nth(Y, Map))]),
     where_to_go({length(lists:nth(Y, Map)) + 1, Y}, {x, -1}, Map);
 where_to_go({X, Y}, {x, -1}, Map) ->
     case can_i_move_to({X-1, Y}, Map) of
@@ -405,39 +451,39 @@ hol_to_dir(19, _Dir)            -> reverse_dir(_Dir);               % eui
 hol_to_dir(_, _Dir)             -> _Dir.                            % nop
 
 %% mapping batchim to number
-bat_to_num(0)               -> 0;
-bat_to_num(1)               -> 2;
-bat_to_num(2)               -> 4;
-bat_to_num(3)               -> 4;
-bat_to_num(4)               -> 2;
+bat_to_num(0)               -> 0; % Term
+bat_to_num(1)               -> 2; % ㄱ
+bat_to_num(2)               -> 4; % ㄲ
+bat_to_num(3)               -> 4; % ㄳ
+bat_to_num(4)               -> 2; % ㄴ
 
-bat_to_num(5)               -> 5;
-bat_to_num(6)               -> 5;
-bat_to_num(7)               -> 3;
-bat_to_num(8)               -> 5;
-bat_to_num(9)               -> 7;
+bat_to_num(5)               -> 5; % ㄵ
+bat_to_num(6)               -> 5; % ㄶ
+bat_to_num(7)               -> 3; % ㄷ
+bat_to_num(8)               -> 5; % ㄹ
+bat_to_num(9)               -> 7; % ㄺ
 
-bat_to_num(10)              -> 9;
-bat_to_num(11)              -> 9;
-bat_to_num(12)              -> 7;
-bat_to_num(13)              -> 9;
-bat_to_num(14)              -> 9;
+bat_to_num(10)              -> 9; % ㄻ
+bat_to_num(11)              -> 9; % ㄼ
+bat_to_num(12)              -> 7; % ㄽ
+bat_to_num(13)              -> 9; % ㄾ
+bat_to_num(14)              -> 9; % ㄿ
 
-bat_to_num(15)              -> 8;
-bat_to_num(16)              -> 4;
-bat_to_num(17)              -> 4;
-bat_to_num(18)              -> 6;
-bat_to_num(19)              -> 2;
+bat_to_num(15)              -> 8; % ㅀ
+bat_to_num(16)              -> 4; % ㅁ
+bat_to_num(17)              -> 4; % ㅂ
+bat_to_num(18)              -> 6; % ㅄ
+bat_to_num(19)              -> 2; % ㅅ
 
-bat_to_num(20)              -> 4;
-% bat_to_num(21)            -> 0;
-bat_to_num(22)              -> 3;
-bat_to_num(23)              -> 4;
-bat_to_num(24)              -> 3;
+bat_to_num(20)              -> 4; % ㅆ
+% bat_to_num(21)            -> 0; % ㅇ
+bat_to_num(22)              -> 3; % ㅈ
+bat_to_num(23)              -> 4; % ㅊ
+bat_to_num(24)              -> 3; % ㅋ
 
-bat_to_num(25)              -> 4;
-bat_to_num(26)              -> 4;
-% bat_to_num(27)            -> 0;
+bat_to_num(25)              -> 4; % ㅌ
+bat_to_num(26)              -> 4; % ㅍ
+% bat_to_num(27)            -> 0; % ㅎ
 bat_to_num(_)               -> -1. % error
 
 %% mapping reverse dir
