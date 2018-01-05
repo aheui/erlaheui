@@ -1,3 +1,27 @@
+%% Copyright (c) 2017-2018 Sungwoo Kim
+%% 
+%% Permission is hereby granted, free of charge, to any person obtaining a copy
+%% of this software and associated documentation files (the "Software"), to deal
+%% in the Software without restriction, including without limitation the rights
+%% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%% copies of the Software, and to permit persons to whom the Software is
+%% furnished to do so, subject to the following conditions:
+%% 
+%% The above copyright notice and this permission notice shall be included in all
+%% copies or substantial portions of the Software.
+%% 
+%% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+%% SOFTWARE.
+
+%% @author Sungwoo Kim <hero.sungwoo@gmail.com>
+%% @copyright 2017-2018 Sungwoo Kim
+%% @doc Erlaheui, the aheui implementation in erlang.
+
 -module(erlaheui).
 
 %% API exports
@@ -6,6 +30,9 @@
 %%====================================================
 %% API functions
 %%====================================================
+
+%% @doc Input aheui source code path.
+-spec c(string()) -> {ok, integer()} | {error, atom()}.
 c(Path) ->
     case file:read_file(Path) of
         {ok, Bin} ->
@@ -20,15 +47,16 @@ c(Path) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-
 %% erlaheui(Aheui source code, Instruction coord X, Instruction coord Y, {Direction and step}, Storage)
-%%          [[ ... ],                            1,                   1, {down,            1}, [[ ... ],   <- stack
-%%           [ ... ],                                                                           [ ... ],   <- stack
+%%          [[ ... ],                            1,                   1, {down,            1}, [[ ... ],   &lt- stack
+%%           [ ... ],                                                                           [ ... ],   &lt- stack
 %%              .                                                                                  .            .
-%%              .                                                                                  .       <- queue(22th)
+%%              .                                                                                  .       &lt- queue(22th)
 %%              .                                                                                  .            .
-%%           [ ... ],                                                                           [ ... ],   <- stack
-%%           [ ... ]],                                                                          [ ... ]]   <- stack(25th)
+%%           [ ... ],                                                                           [ ... ],   &lt- stack
+%%           [ ... ]],                                                                          [ ... ]]   &lt- stack(25th)
+%% @doc Interprete aheui matrix.
+-spec erlaheui(list(), integer(), integer(), atom(), list()) -> {eoa, integer()}.
 erlaheui(Src, X, Y, _Dir, _Store) ->
     case aheui_fsm(get(Y, X, Src), _Dir, _Store) of
         {{up, Step}, Store} ->
